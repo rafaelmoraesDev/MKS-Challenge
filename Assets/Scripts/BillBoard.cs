@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class BillBoard : MonoBehaviour
 {
-    [SerializeField]
-    private RectTransform rectTransform;
+    [SerializeField] private RectTransform rectTransform;
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -14,6 +13,5 @@ public class BillBoard : MonoBehaviour
     private void LateUpdate()
     {
         transform.LookAt(transform.position - Camera.main.transform.forward);
-        //rectTransform.rotation = Quaternion.identity;
     }
 }

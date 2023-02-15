@@ -6,5 +6,30 @@ public class StatusCharacter : MonoBehaviour
 {
     public int Life;
     public int Damage;
-   
+    public bool Alive;
+    private void Awake()
+    {
+        Alive = !Alive;
+    }
+
+    public void SetDamage()
+    {
+        Life -= Damage;
+
+        if (Life <= Constants.ZERO && Alive)
+        {
+            Debug.Log("Die");
+            Alive = !Alive;
+            if (gameObject.CompareTag(Tags.Player) && !Alive)
+                Time.timeScale = Constants.ZERO;
+            else
+                DestroyShip();
+        }
+    }
+
+    public void DestroyShip()
+    {
+        Destroy(this.gameObject);
+    }
+
 }
