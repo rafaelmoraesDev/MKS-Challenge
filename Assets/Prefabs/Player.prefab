@@ -50,7 +50,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 023a2978adbcd7c41a9c5461fd69226c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -132,7 +132,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 023a2978adbcd7c41a9c5461fd69226c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -174,7 +174,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1111012826}
   m_Layer: 9
-  m_Name: ExitPointCannon
+  m_Name: MiddleExitPointCannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -188,7 +188,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1111012825}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: -0, z: 0}
+  m_LocalPosition: {x: 0.8, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 887873180}
@@ -204,7 +204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1831174748}
   m_Layer: 9
-  m_Name: ExitPointCannon
+  m_Name: UpperExitPointCannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -218,7 +218,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1831174747}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: -0, z: 0}
+  m_LocalPosition: {x: 0.8, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2002515065}
@@ -234,7 +234,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1926299145}
   m_Layer: 9
-  m_Name: ExitPointCannon
+  m_Name: BottomExitPointCannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -248,7 +248,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1926299144}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: -0, z: 0}
+  m_LocalPosition: {x: 0.8, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 68560096}
@@ -304,7 +304,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 023a2978adbcd7c41a9c5461fd69226c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -386,7 +386,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 023a2978adbcd7c41a9c5461fd69226c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -472,7 +472,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2146811335}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.181, y: -0.043, z: 0}
+  m_LocalPosition: {x: 0.189, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2002515065}
@@ -530,13 +530,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 719340b3422f92449a2f63ba4217267a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CannonBall: {fileID: 7894543546539311326, guid: d46dadfc26a64734183178b1b33841e2,
-    type: 3}
-  ExitPointSingleCannon: {fileID: 2034557528}
   ExitPointTripleCannon:
-  - {fileID: 2002515064}
-  - {fileID: 887873179}
-  - {fileID: 68560095}
+  - {fileID: 1831174747}
+  - {fileID: 1111012825}
+  - {fileID: 1926299144}
   StatusCharacter: {fileID: 0}
   speed: 2
 --- !u!114 &2735120772909024931
@@ -566,6 +563,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb0a3ffcd299a8349bbdc1fb44bc0708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Cannon: {fileID: 0}
+  CannonBall: {fileID: 7894543546539311326, guid: d46dadfc26a64734183178b1b33841e2,
+    type: 3}
+  ExitPointSingleCannon: {fileID: 2034557528}
+  TripleCannon: []
+  CannonBallScript: {fileID: 0}
 --- !u!50 &2735120772909024929
 Rigidbody2D:
   serializedVersion: 4
@@ -597,7 +600,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.1}
@@ -664,7 +667,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 023a2978adbcd7c41a9c5461fd69226c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
