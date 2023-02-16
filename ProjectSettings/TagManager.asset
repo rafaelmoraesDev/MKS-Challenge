@@ -4,9 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Enemy
   - CannonBall
   - Scenario
+  - Enemy
   layers:
   - Default
   - TransparentFX
