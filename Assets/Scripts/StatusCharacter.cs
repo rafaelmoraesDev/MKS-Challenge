@@ -23,13 +23,10 @@ public class StatusCharacter : MonoBehaviour
             if (gameObject.CompareTag(Tags.Player) && !Alive)
                 Time.timeScale = Constants.ZERO;
             else
-                DestroyShip();
+                Destroy(gameObject);
         }
     }
 
-    public void DestroyShip()
-    {
-        Destroy(this.gameObject);
-    }
+
 
 }

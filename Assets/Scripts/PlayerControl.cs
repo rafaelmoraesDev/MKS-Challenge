@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-    public GameObject CannonBall;
-    public GameObject ExitPointSingleCannon;
     public GameObject[] ExitPointTripleCannon;
 
     public StatusCharacter StatusCharacter;
+
+    private ShootControl shootControl;
 
     private Rigidbody2D rb2D;
 
@@ -20,6 +20,7 @@ public class PlayerControl : MonoBehaviour
     {
         rb2D = GetComponent<Rigidbody2D>();
         StatusCharacter = GetComponent<StatusCharacter>();
+        shootControl = GetComponent<ShootControl>();
     }
 
     private void Update()
@@ -33,13 +34,17 @@ public class PlayerControl : MonoBehaviour
     private void LateUpdate()
     {
         if (Input.GetButtonDown("Fire1"))
-            Instantiate(CannonBall, ExitPointSingleCannon.transform.position, ExitPointSingleCannon.transform.rotation);
+        {
+            shootControl.SingleShoot();
+            shootControl.CannonBallScript.SetOriginShoot(gameObject);
+
+        }
 
         if (Input.GetButtonDown("Fire2"))
         {
             foreach (GameObject exitPoint in ExitPointTripleCannon)
             {
-                Instantiate(CannonBall, exitPoint.transform.position, exitPoint.transform.rotation);
+                //Instantiate(CannonBall, exitPoint.transform.position, exitPoint.transform.rotation);
             }
         }
     }
