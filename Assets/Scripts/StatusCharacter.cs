@@ -32,14 +32,11 @@ public class StatusCharacter : MonoBehaviour
         {
             case int n when n <= 0:
                 spriteRenderer.sprite = sprites[3];
-                Debug.Log("0");
                 break;
             case int n when n < 25:
-                Debug.Log("25");
                 spriteRenderer.sprite = sprites[2];
                 break;
             case int n when n < 60:
-                Debug.Log("60");
                 spriteRenderer.sprite = sprites[1];
                 break;
             case int n when n < 100:

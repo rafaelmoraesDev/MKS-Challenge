@@ -261,6 +261,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyKind: Shooter
   Player: {fileID: 0}
+  Explosion: {fileID: 3802021806608887329, guid: 7bfcea49f1ba0464090982e6d2e315b6,
+    type: 3}
   EnemySpritesChaser:
   - {fileID: 21300000, guid: 4fb0dd23652a32e42900fae96ba38ada, type: 3}
   - {fileID: 21300000, guid: 9fbfdfd9a367be54ca7e9f5b8e40839e, type: 3}

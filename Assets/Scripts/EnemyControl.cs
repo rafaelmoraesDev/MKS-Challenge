@@ -103,7 +103,8 @@ public class EnemyControl : MonoBehaviour
         if (collision.gameObject.CompareTag(Tags.Player) && EnemyKind.Contains("Chaser"))
         {
             Player.GetComponent<PlayerControl>().StatusCharacter.SetDamage();
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            //Destroy(gameObject);
 
         }
     }
