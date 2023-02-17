@@ -19,7 +19,6 @@ public class CannonBall : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         CheckHitTarget(collision);
-        Debug.Log(collision.gameObject.name);
         DestroyCannonBall();
     }
 

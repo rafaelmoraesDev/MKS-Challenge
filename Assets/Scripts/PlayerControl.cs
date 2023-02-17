@@ -12,7 +12,7 @@ public class PlayerControl : MonoBehaviour
 
     private Rigidbody2D rb2D;
 
-    private Vector3 direction;
+    private Vector2 direction;
 
     [SerializeField] private float speed = Constants.MINIMUM_VALUE;
 
@@ -48,18 +48,19 @@ public class PlayerControl : MonoBehaviour
     {
         rb2D.velocity = new Vector2(direction.x * speed, direction.y * speed);
     }
-    private void ProcessMoveInputs(Vector3 direction)
+    private void ProcessMoveInputs(Vector2 direction)
     {
         float axysX = Input.GetAxisRaw("Horizontal");
         float axysY = Input.GetAxisRaw("Vertical");
 
-        direction = new Vector3(Constants.ZERO, axysY, Constants.ZERO).normalized;
+        direction = new Vector2(Constants.ZERO, axysY).normalized;
 
         if (axysY > Constants.ZERO)
-            transform.Translate(direction * speed * Time.deltaTime);
+            rb2D.MovePosition(rb2D.position + ((Vector2)rb2D.transform.up * speed * Time.fixedDeltaTime));
 
         if (!axysX.Equals(Constants.ZERO))
-            transform.Rotate(new Vector3(Constants.ZERO, Constants.ZERO, -axysX));
+            rb2D.rotation -= axysX;
+           
     }
 
 }
