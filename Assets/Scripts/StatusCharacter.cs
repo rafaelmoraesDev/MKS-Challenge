@@ -22,8 +22,12 @@ public class StatusCharacter : MonoBehaviour
             Alive = !Alive;
             if (gameObject.CompareTag(Tags.Player) && !Alive)
                 Time.timeScale = Constants.ZERO;
-            else
+
+            if (gameObject.CompareTag(Tags.Enemy))
                 Destroy(gameObject);
+
+
+
         }
     }
 

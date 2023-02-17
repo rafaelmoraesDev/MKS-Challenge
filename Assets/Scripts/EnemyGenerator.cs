@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class EnemyGenerator : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject enemyPrefab;
-    [SerializeField]
-    private float timeGenerateNext;
+    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private float timeGenerateNext;
+    [SerializeField] private int radiusArea;
+
 
 
     //TODO:Colocar todos os inimigos numa lista para ativar e desativar ao inves de destroy
     //private List<GameObject> Enemies = new List<GameObject>();
 
     private float counter = Constants.ZERO;
-    private int lenghtDistance = 10;
 
     private string[] enemies = new string[] { "Chaser", "Shooter" };
 
@@ -52,14 +51,15 @@ public class EnemyGenerator : MonoBehaviour
     }
     private Vector3 SetRandonPosition()
     {
-        Vector3 position = Random.insideUnitSphere * lenghtDistance;
+        Vector3 position = Random.insideUnitSphere * radiusArea;
         position += transform.position;
+        position.z = transform.position.z;
 
         return position;
     }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, lenghtDistance);
+        Gizmos.DrawWireSphere(transform.position, radiusArea);
     }
 }

@@ -7,25 +7,31 @@ public class ShootControl : MonoBehaviour
     public GameObject Cannon;
     public GameObject CannonBall;
     public GameObject ExitPointSingleCannon;
-    public GameObject[] TripleCannon;
+    public GameObject[] ExitPointTripleCannon;
 
     public CannonBall CannonBallScript;
 
-    private void Awake()
+    public void SingleShoot(GameObject shooter)
     {
-        CannonBallScript = CannonBall.GetComponent<CannonBall>();
+        SetPrefab(ExitPointSingleCannon, shooter);
     }
 
-    public void SingleShoot()
+    public void TripleShoot(GameObject shooter)
     {
-        GameObject cannonBall = CannonBall;
+        foreach (GameObject exitPoint in ExitPointTripleCannon)
+        {
+            SetPrefab(exitPoint, shooter);
+        }
+    }
+
+    private void SetPrefab(GameObject exitPoint, GameObject owner)
+    {
+        GameObject prefab = CannonBall;
+        GameObject cannonBall = Instantiate(prefab, exitPoint.transform.position, exitPoint.transform.rotation);
         CannonBall cannonBallScript = cannonBall.GetComponent<CannonBall>();
+        cannonBallScript.OriginalShooter = owner;
+        CannonBallScript = cannonBallScript;
 
-        Instantiate(cannonBall, ExitPointSingleCannon.transform.position, ExitPointSingleCannon.transform.rotation);
-    }
-
-    public void TripleShoot()
-    {
 
     }
 }

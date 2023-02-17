@@ -5,14 +5,14 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
     public GameObject[] ExitPointTripleCannon;
-
     public StatusCharacter StatusCharacter;
+    public LayerMask LayerMask;
 
     private ShootControl shootControl;
 
     private Rigidbody2D rb2D;
 
-    private Vector2 direction;
+    private Vector3 direction;
 
     [SerializeField] private float speed = Constants.MINIMUM_VALUE;
 
@@ -25,7 +25,8 @@ public class PlayerControl : MonoBehaviour
 
     private void Update()
     {
-        ProcessInputs();
+        if (StatusCharacter.Alive)
+            ProcessMoveInputs(direction);
     }
     private void FixedUpdate()
     {
@@ -33,19 +34,13 @@ public class PlayerControl : MonoBehaviour
     }
     private void LateUpdate()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (StatusCharacter.Alive)
         {
-            shootControl.SingleShoot();
-            shootControl.CannonBallScript.SetOriginShoot(gameObject);
+            if (Input.GetButtonDown("Fire1"))
+                shootControl.SingleShoot(this.gameObject);
 
-        }
-
-        if (Input.GetButtonDown("Fire2"))
-        {
-            foreach (GameObject exitPoint in ExitPointTripleCannon)
-            {
-                //Instantiate(CannonBall, exitPoint.transform.position, exitPoint.transform.rotation);
-            }
+            if (Input.GetButtonDown("Fire2"))
+                shootControl.TripleShoot(this.gameObject);
         }
     }
 
@@ -53,12 +48,12 @@ public class PlayerControl : MonoBehaviour
     {
         rb2D.velocity = new Vector2(direction.x * speed, direction.y * speed);
     }
-    private void ProcessInputs()
+    private void ProcessMoveInputs(Vector3 direction)
     {
         float axysX = Input.GetAxisRaw("Horizontal");
         float axysY = Input.GetAxisRaw("Vertical");
 
-        Vector3 direction = new Vector3(Constants.ZERO, axysY, Constants.ZERO).normalized;
+        direction = new Vector3(Constants.ZERO, axysY, Constants.ZERO).normalized;
 
         if (axysY > Constants.ZERO)
             transform.Translate(direction * speed * Time.deltaTime);

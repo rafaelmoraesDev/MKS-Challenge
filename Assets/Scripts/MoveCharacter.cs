@@ -15,9 +15,11 @@ public class MoveCharacter : MonoBehaviour
     }
     public void ChaseMovement(Vector3 direction, float speed)
     {
-        //TODO: checar tipo de inimigo, se shooter parar numa distancia x do player e atirar
         rb2D.velocity = new Vector2(direction.x * speed, direction.y * speed).normalized;
-        
+    }
+    public void Kamikaze(Vector3 direction, float speed)
+    {
+        rb2D.velocity = new Vector2(direction.x * speed, direction.y * speed);
     }
     public void LookToPlayerRotation(Vector3 direction)
     {
