@@ -535,6 +535,9 @@ MonoBehaviour:
   - {fileID: 1111012825}
   - {fileID: 1926299144}
   StatusCharacter: {fileID: 0}
+  LayerMask:
+    serializedVersion: 2
+    m_Bits: 512
   speed: 2
 --- !u!114 &2735120772909024931
 MonoBehaviour:
@@ -549,7 +552,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Life: 100
-  Damage: 20
+  Damage: 21
   Alive: 0
 --- !u!114 &2735120772909024932
 MonoBehaviour:
@@ -567,7 +570,10 @@ MonoBehaviour:
   CannonBall: {fileID: 7894543546539311326, guid: d46dadfc26a64734183178b1b33841e2,
     type: 3}
   ExitPointSingleCannon: {fileID: 2034557528}
-  TripleCannon: []
+  ExitPointTripleCannon:
+  - {fileID: 1831174747}
+  - {fileID: 1111012825}
+  - {fileID: 1926299144}
   CannonBallScript: {fileID: 0}
 --- !u!50 &2735120772909024929
 Rigidbody2D:
@@ -600,7 +606,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.1}
