@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class EnemyControl : MonoBehaviour
 {
-    public GameObject Player;
-    public Sprite[] Sprites;
     public string EnemyKind;
+    public GameObject Player;
+    public Sprite[] EnemySpritesChaser;
+    public Sprite[] EnemySpritesShooter;
     public SpriteRenderer EnemySpriteRenderer;
     public StatusCharacter StatusCharacter;
 
@@ -37,7 +38,13 @@ public class EnemyControl : MonoBehaviour
     private void Update()
     {
         if (EnemyKind.Equals("Shooter"))
+        {
             timeBetweenShoots -= Time.deltaTime;
+            StatusCharacter.SetDeterioration(EnemySpriteRenderer, EnemySpritesShooter);
+        }
+        else
+            StatusCharacter.SetDeterioration(EnemySpriteRenderer, EnemySpritesChaser);
+
         distance = Vector3.Distance(transform.position, Player.transform.position);
     }
 
@@ -72,16 +79,16 @@ public class EnemyControl : MonoBehaviour
         switch (EnemyKind)
         {
             case "Chaser":
-                EnemySpriteRenderer.sprite = Sprites[0];
+                EnemySpriteRenderer.sprite = EnemySpritesChaser[0];
                 shootControl.Cannon.SetActive(false);
-                StatusCharacter.Life = 40;
+                StatusCharacter.Life = 100;
                 StatusCharacter.Damage = Random.Range(StatusCharacter.Life / 2, StatusCharacter.Life);
                 speed = 1f;
                 break;
             case "Shooter":
-                EnemySpriteRenderer.sprite = Sprites[1];
+                EnemySpriteRenderer.sprite = EnemySpritesShooter[0];
                 shootControl.enabled = !shootControl.enabled;
-                StatusCharacter.Life = 80;
+                StatusCharacter.Life = 100;
                 StatusCharacter.Damage = Random.Range(StatusCharacter.Life / 4, StatusCharacter.Life / 2);
                 speed = 0.7f;
                 break;
@@ -100,8 +107,5 @@ public class EnemyControl : MonoBehaviour
 
         }
     }
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
 
-    //}
 }

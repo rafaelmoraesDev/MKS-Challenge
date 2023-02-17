@@ -6,18 +6,19 @@ public class PlayerControl : MonoBehaviour
 {
     public GameObject[] ExitPointTripleCannon;
     public StatusCharacter StatusCharacter;
-    public LayerMask LayerMask;
+    public Sprite[] PlayerSprites;
 
     private ShootControl shootControl;
-
     private Rigidbody2D rb2D;
-
     private Vector2 direction;
+    private SpriteRenderer playerSpriteRenderer;
 
     [SerializeField] private float speed = Constants.MINIMUM_VALUE;
 
     private void Awake()
     {
+        playerSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        playerSpriteRenderer.sprite = PlayerSprites[Constants.ZERO];
         rb2D = GetComponent<Rigidbody2D>();
         StatusCharacter = GetComponent<StatusCharacter>();
         shootControl = GetComponent<ShootControl>();
@@ -25,6 +26,7 @@ public class PlayerControl : MonoBehaviour
 
     private void Update()
     {
+        StatusCharacter.SetDeterioration(playerSpriteRenderer, PlayerSprites);
         if (StatusCharacter.Alive)
             ProcessMoveInputs(direction);
     }
@@ -36,6 +38,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (StatusCharacter.Alive)
         {
+           
             if (Input.GetButtonDown("Fire1"))
                 shootControl.SingleShoot(this.gameObject);
 
@@ -60,7 +63,12 @@ public class PlayerControl : MonoBehaviour
 
         if (!axysX.Equals(Constants.ZERO))
             rb2D.rotation -= axysX;
-           
+
     }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere(transform.position, 3);
+    //}
 
 }

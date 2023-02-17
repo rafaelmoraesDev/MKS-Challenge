@@ -17,11 +17,18 @@ public class EnemyGenerator : MonoBehaviour
 
     private string[] enemies = new string[] { "Chaser", "Shooter" };
 
+    private GameObject player;
+
+    private void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag(Tags.Player);
+    }
 
     private void Update()
     {
+        float distance = Vector2.Distance(transform.position, player.transform.position);
         counter += Time.deltaTime;
-        if (counter >= timeGenerateNext && !Time.timeScale.Equals(Constants.ZERO))
+        if (counter >= timeGenerateNext && !Time.timeScale.Equals(Constants.ZERO) && distance > 10)
         {
             StartCoroutine(GenerateEnemiesShips());
             counter = Constants.ZERO;

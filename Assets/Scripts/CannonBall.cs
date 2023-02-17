@@ -37,15 +37,9 @@ public class CannonBall : MonoBehaviour
             if (!collision.CompareTag(OriginalShooter.tag))
                 statusCharacter.SetDamage();
 
-            if (statusCharacter.Life <= Constants.MINIMUM_VALUE)
+            if (statusCharacter.Life <= Constants.MINIMUM_VALUE && !collision.CompareTag(Tags.Player))
                 collision.gameObject.SetActive(false);
         }
 
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, 0.09f);
     }
 }
