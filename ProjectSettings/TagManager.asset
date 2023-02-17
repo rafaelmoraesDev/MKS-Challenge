@@ -7,6 +7,7 @@ TagManager:
   - CannonBall
   - Scenario
   - Enemy
+  - Bounds
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - Scenario
   - Player
   - Enemy
-  - 
+  - Bounds
   - 
   - 
   - 
