@@ -7,6 +7,10 @@ public class PlayerControl : MonoBehaviour
     public GameObject[] ExitPointTripleCannon;
     public StatusCharacter StatusCharacter;
     public Sprite[] PlayerSprites;
+    public Animator Animator;
+    public GameObject Cannon;
+
+    public Animator[] AnimatorTriple;
 
     private ShootControl shootControl;
     private Rigidbody2D rb2D;
@@ -22,6 +26,7 @@ public class PlayerControl : MonoBehaviour
         rb2D = GetComponent<Rigidbody2D>();
         StatusCharacter = GetComponent<StatusCharacter>();
         shootControl = GetComponent<ShootControl>();
+        Animator = GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -29,6 +34,21 @@ public class PlayerControl : MonoBehaviour
         StatusCharacter.SetDeterioration(playerSpriteRenderer, PlayerSprites);
         if (StatusCharacter.Alive)
             ProcessMoveInputs(direction);
+
+        if (!StatusCharacter.Alive)
+            Cannon.SetActive(false);
+
+        if (Input.GetButtonDown("Fire1"))
+            Animator.SetTrigger("Explode");
+
+        if (Input.GetButtonDown("Fire2"))
+        {
+            foreach(Animator anim in AnimatorTriple)
+            {
+                anim.SetTrigger("Explode");
+            }
+        }
+            
     }
     private void FixedUpdate()
     {
@@ -38,7 +58,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (StatusCharacter.Alive)
         {
-           
+
             if (Input.GetButtonDown("Fire1"))
                 shootControl.SingleShoot(this.gameObject);
 
@@ -63,12 +83,5 @@ public class PlayerControl : MonoBehaviour
 
         if (!axysX.Equals(Constants.ZERO))
             rb2D.rotation -= axysX;
-
     }
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawWireSphere(transform.position, 3);
-    //}
-
 }

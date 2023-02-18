@@ -15,18 +15,20 @@ public class StatusCharacter : MonoBehaviour
     public void SetDamage()
     {
         Life -= Damage;
+
         if (Life <= Constants.ZERO && Alive)
         {
-            Debug.Log("Die");
             Alive = !Alive;
-            if (gameObject.CompareTag(Tags.Player) && !Alive)
-                Time.timeScale = Constants.ZERO;
 
             if (gameObject.CompareTag(Tags.Enemy))
-                Destroy(gameObject);
+                this.gameObject.GetComponent<EnemyControl>().AnimateExplosionAndDestroy();
+
+            if (gameObject.CompareTag(Tags.Player))
+                Time.timeScale = Constants.ZERO;
+
         }
     }
-    public void SetDeterioration(SpriteRenderer spriteRenderer, Sprite [] sprites)
+    public void SetDeterioration(SpriteRenderer spriteRenderer, Sprite[] sprites)
     {
         switch (Life)
         {
@@ -42,7 +44,7 @@ public class StatusCharacter : MonoBehaviour
             case int n when n < 100:
                 spriteRenderer.sprite = sprites[0];
                 break;
-           
+
         }
     }
 }

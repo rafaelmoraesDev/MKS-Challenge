@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8217160c57e77ed4e9d0988ad5f48061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 765006252091798028, guid: 7cf26873a6315eb438098c1e45637692,
-    type: 3}
-  timeGenerateNext: 1
+  EnemiesPile: {fileID: 0}
+  timeGenerateNext: 5
   radiusArea: 5
+  amountEnemies: 10

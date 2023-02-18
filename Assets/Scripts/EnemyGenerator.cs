@@ -4,20 +4,22 @@ using UnityEngine;
 
 public class EnemyGenerator : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab;
+
+    public EnemiesPile EnemiesPile;
+    //[SerializeField] private GameObject enemyPrefab;
     [SerializeField] private float timeGenerateNext;
     [SerializeField] private int radiusArea;
+    [SerializeField] private int amountEnemies;
 
 
-
-    //TODO:Colocar todos os inimigos numa lista para ativar e desativar ao inves de destroy
-    //private List<GameObject> Enemies = new List<GameObject>();
 
     private float counter = Constants.ZERO;
 
     private string[] enemies = new string[] { "Chaser", "Shooter" };
 
     private GameObject player;
+
+    private GameObject enemy;
 
     private void Awake()
     {
@@ -37,15 +39,22 @@ public class EnemyGenerator : MonoBehaviour
 
     private IEnumerator GenerateEnemiesShips()
     {
-        Vector3 randomPosition = SetRandonPosition();
-        Collider[] colliders = Physics.OverlapSphere(randomPosition, Constants.MINIMUM_VALUE);
-        while (colliders.Length > Constants.ZERO)
+        if (EnemiesPile.IsEmptyPile())
         {
-            randomPosition = SetRandonPosition();
-            yield return null;
+            Vector3 randomPosition = SetRandonPosition();
+            Collider[] colliders = Physics.OverlapSphere(randomPosition, Constants.MINIMUM_VALUE);
+            while (colliders.Length > Constants.ZERO)
+            {
+                randomPosition = SetRandonPosition();
+                yield return null;
+            }
+            
+            enemy = EnemiesPile.SetEnemy();
+            enemy.SetActive(true);
+            enemy.transform.position = randomPosition;
+            SetRandomCharacter();
         }
-        SetRandomCharacter();
-        Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
+
     }
 
     private void SetRandomCharacter()
@@ -53,7 +62,7 @@ public class EnemyGenerator : MonoBehaviour
         int min = 0;
         int max = enemies.Length;
         int sort = Random.Range(min, max);
-        EnemyControl enemyControl = enemyPrefab.GetComponent<EnemyControl>();
+        EnemyControl enemyControl = enemy.GetComponent<EnemyControl>();
         enemyControl.EnemyKind = enemies[sort];
     }
     private Vector3 SetRandonPosition()

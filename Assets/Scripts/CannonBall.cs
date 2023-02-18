@@ -24,21 +24,21 @@ public class CannonBall : MonoBehaviour
 
     private void DestroyCannonBall()
     {
+
         Destroy(this.gameObject);
     }
 
     private void CheckHitTarget(Collider2D collision)
     {
         StatusCharacter statusCharacter = collision.gameObject.GetComponent<StatusCharacter>();
-
+        EnemyControl enemyControl = collision.gameObject.GetComponent<EnemyControl>();
         if (statusCharacter != null)
         {
-
             if (!collision.CompareTag(OriginalShooter.tag))
                 statusCharacter.SetDamage();
 
             if (statusCharacter.Life <= Constants.MINIMUM_VALUE && !collision.CompareTag(Tags.Player))
-                collision.gameObject.SetActive(false);
+                enemyControl.AnimateExplosionAndDestroy();
         }
 
     }

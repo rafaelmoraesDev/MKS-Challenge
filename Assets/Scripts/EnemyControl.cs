@@ -10,6 +10,7 @@ public class EnemyControl : MonoBehaviour
     public Sprite[] EnemySpritesShooter;
     public SpriteRenderer EnemySpriteRenderer;
     public StatusCharacter StatusCharacter;
+    public Animator Animator;
 
     [SerializeField] private float speed;
     [SerializeField] private float timeBetweenShoots;
@@ -20,7 +21,7 @@ public class EnemyControl : MonoBehaviour
     private MoveCharacter moveCharacter;
     private float distance;
     private Vector3 direction;
-
+    private PlayerControl playerControl;
 
     private void Awake()
     {
@@ -28,12 +29,14 @@ public class EnemyControl : MonoBehaviour
         shootControl = GetComponent<ShootControl>();
         EnemySpriteRenderer = GetComponentInChildren<SpriteRenderer>();
         StatusCharacter = GetComponent<StatusCharacter>();
+        Animator = GetComponentInChildren<Animator>();
     }
     private void Start()
     {
         SetEnemyKind();
         Player = GameObject.FindGameObjectWithTag(Tags.Player);
         timeBetweenShoots = startTime;
+        playerControl = Player.GetComponent<PlayerControl>();
     }
     private void Update()
     {
@@ -46,10 +49,12 @@ public class EnemyControl : MonoBehaviour
             StatusCharacter.SetDeterioration(EnemySpriteRenderer, EnemySpritesChaser);
 
         distance = Vector3.Distance(transform.position, Player.transform.position);
+
     }
 
     private void FixedUpdate()
     {
+
         if (!Player.Equals(null))
         {
             direction = Player.transform.position - transform.position;
@@ -60,7 +65,7 @@ public class EnemyControl : MonoBehaviour
                 if (EnemyKind.Equals("Shooter"))
                 {
                     moveCharacter.StopMoving();
-                    if (timeBetweenShoots <= Constants.ZERO)
+                    if (timeBetweenShoots <= Constants.ZERO && playerControl.StatusCharacter.Alive)
                     {
                         shootControl.SingleShoot(gameObject);
                         timeBetweenShoots = startTime;
@@ -102,11 +107,19 @@ public class EnemyControl : MonoBehaviour
     {
         if (collision.gameObject.CompareTag(Tags.Player) && EnemyKind.Contains("Chaser"))
         {
+            AnimateExplosionAndDestroy();
             Player.GetComponent<PlayerControl>().StatusCharacter.SetDamage();
-            gameObject.SetActive(false);
-            //Destroy(gameObject);
-
         }
+
+    }
+
+    public void AnimateExplosionAndDestroy()
+    {
+
+        EnemySpriteRenderer.sprite = null;
+        Animator.SetTrigger("Explode");
+        float duration = 0.2f;
+        //TODO: Retornar barco detonado para pilha
     }
 
 }
