@@ -21,8 +21,14 @@ public class EnemyControl : MonoBehaviour
     private float distance;
     private Vector3 direction;
     private PlayerControl playerControl;
-    private AudioSource audioSource;
+    private AudioSource shootSound;
 
+    struct EnemyVar
+    {
+        public int fullLife;
+        public int firstDivisor;
+        public int secondDivisor;
+    }
     private void Awake()
     {
         moveCharacter = GetComponent<MoveCharacter>();
@@ -30,7 +36,7 @@ public class EnemyControl : MonoBehaviour
         EnemySpriteRenderer = GetComponentInChildren<SpriteRenderer>();
         StatusCharacter = GetComponent<StatusCharacter>();
         Animator = GetComponentInChildren<Animator>();
-        audioSource = Camera.main.GetComponent<AudioSource>();
+        shootSound = Camera.main.GetComponent<AudioSource>();
     }
     private void Start()
     {
@@ -39,6 +45,19 @@ public class EnemyControl : MonoBehaviour
         playerControl = Player.GetComponent<PlayerControl>();
     }
     private void Update()
+    {
+        SetUpdateActions();
+    }
+    private void FixedUpdate()
+    {
+        MoveAndShootBehavior();
+    }
+    private void OnDisable()
+    {
+        Animator.ResetTrigger("Explode");
+    }
+
+    private void SetUpdateActions()
     {
         if (EnemyKind.Equals("Shooter"))
         {
@@ -49,12 +68,11 @@ public class EnemyControl : MonoBehaviour
             StatusCharacter.SetDeterioration(EnemySpriteRenderer, EnemySpritesChaser);
 
         distance = Vector3.Distance(transform.position, Player.transform.position);
-
     }
 
-    private void FixedUpdate()
-    {
 
+    private void MoveAndShootBehavior()
+    {
         if (!Player.Equals(null))
         {
             direction = Player.transform.position - transform.position;
@@ -68,8 +86,10 @@ public class EnemyControl : MonoBehaviour
                     moveCharacter.StopMoving();
                     if (timeBetweenShoots <= Constants.ZERO && playerControl.StatusCharacter.Alive)
                     {
+                        float pitchValue = 3;
                         shootControl.SingleShoot(gameObject);
-                        audioSource.Play();
+                        shootSound.pitch = pitchValue;
+                        shootSound.Play();
                         timeBetweenShoots = startTime;
                     }
                 }
@@ -83,26 +103,30 @@ public class EnemyControl : MonoBehaviour
 
     public void SetEnemyStats()
     {
-        int fullLife = 100;
-        int firstDivisor = 2;
-        int secondDivisor = 4;
-      
+        EnemyVar enemyVars = new EnemyVar()
+        {
+            fullLife = 100,
+            firstDivisor = 2,
+            secondDivisor = 4
+        };
+
         switch (EnemyKind)
         {
             case "Chaser":
                 EnemySpriteRenderer.sprite = EnemySpritesChaser[Constants.ZERO];
                 shootControl.Cannon.SetActive(false);
                 StatusCharacter.Alive = true;
-                StatusCharacter.Life = fullLife;
-                StatusCharacter.Damage = Random.Range(StatusCharacter.Life / firstDivisor, StatusCharacter.Life);
+                StatusCharacter.Life = enemyVars.fullLife;
+                StatusCharacter.Damage = Random.Range(StatusCharacter.Life / enemyVars.firstDivisor, StatusCharacter.Life);
                 speed = 1f;
                 break;
             case "Shooter":
                 EnemySpriteRenderer.sprite = EnemySpritesShooter[Constants.ZERO];
                 shootControl.enabled = !shootControl.enabled;
                 StatusCharacter.Alive = true;
-                StatusCharacter.Life = fullLife;
-                StatusCharacter.Damage = Random.Range(StatusCharacter.Life / secondDivisor, StatusCharacter.Life / firstDivisor);
+                StatusCharacter.Life = enemyVars.fullLife;
+                StatusCharacter.Damage = Random.Range(StatusCharacter.Life / enemyVars.secondDivisor,
+                    StatusCharacter.Life / enemyVars.firstDivisor);
                 speed = 0.7f;
                 break;
             default:
@@ -121,9 +145,8 @@ public class EnemyControl : MonoBehaviour
 
     public void AnimateExplosionAndDestroy()
     {
-        EnemySpriteRenderer.sprite = null;
         Animator.SetTrigger("Explode");
-        float duration = 0.3f;
+        float duration = 0.333f;
         PileObject pileObject = gameObject.GetComponent<PileObject>();
         if (pileObject.isActiveAndEnabled)
             StartCoroutine(SetBackToPile(duration, pileObject));

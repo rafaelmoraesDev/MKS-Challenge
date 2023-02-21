@@ -24,6 +24,11 @@ public class EnemyGenerator : MonoBehaviour
     
     private void Update()
     {
+        SetupShips();
+    }
+
+    private void SetupShips()
+    {
         float distance = Vector2.Distance(transform.position, player.transform.position);
         counter += Time.deltaTime;
         float tolerance = 8;
@@ -49,7 +54,6 @@ public class EnemyGenerator : MonoBehaviour
 
             var enemy = EnemiesPile.SetEnemy();
             enemy.transform.position = randomPosition;
-            //EnemiesPile.SetEnemy();
         }
 
     }

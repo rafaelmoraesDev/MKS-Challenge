@@ -30,10 +30,7 @@ public class StatusCharacter : MonoBehaviour
             if (gameObject.CompareTag(Tags.Enemy))
             {
                 this.gameObject.GetComponent<EnemyControl>().AnimateExplosionAndDestroy();
-                this.gameObject.GetComponent<PileObject>().SendBackToPile();
-                
                 scoreScript.SetScore();
-
             }
 
             if (gameObject.CompareTag(Tags.Player))
@@ -41,7 +38,6 @@ public class StatusCharacter : MonoBehaviour
                 GameOverPanel.SetActive(true);
                 Time.timeScale = Constants.ZERO;
             }
-
         }
     }
     public void SetDeterioration(SpriteRenderer spriteRenderer, Sprite[] sprites)
@@ -60,7 +56,6 @@ public class StatusCharacter : MonoBehaviour
             case int n when n < 100:
                 spriteRenderer.sprite = sprites[0];
                 break;
-
         }
     }
 }

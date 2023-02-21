@@ -27,7 +27,7 @@ public class Manager : MonoBehaviour
 
     private void SetData()
     {
-        if (GameData.Minutes <= 0 && GameData.SpawnTime <= 0)
+        if (GameData.Minutes <= Constants.ZERO && GameData.SpawnTime <= Constants.ZERO)
         {
             GameData.Minutes = SliderTime.minValue;
             GameData.SpawnTime = SliderTimeSpawn.minValue;

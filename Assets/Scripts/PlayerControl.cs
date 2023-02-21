@@ -11,13 +11,14 @@ public class PlayerControl : MonoBehaviour
     public GameObject Cannon;
     public Animator[] AnimatorTriple;
 
+    [SerializeField] private float speed = Constants.MINIMUM_VALUE;
+
     private ShootControl shootControl;
     private Rigidbody2D rb2D;
     private Vector2 direction;
     private SpriteRenderer playerSpriteRenderer;
     private AudioSource audioSource;
 
-    [SerializeField] private float speed = Constants.MINIMUM_VALUE;
 
     private void Awake()
     {
@@ -39,17 +40,7 @@ public class PlayerControl : MonoBehaviour
         if (!StatusCharacter.Alive)
             Cannon.SetActive(false);
 
-        if (Input.GetButtonDown("Fire1"))
-            Animator.SetTrigger("Explode");
-
-        if (Input.GetButtonDown("Fire2"))
-        {
-            foreach(Animator anim in AnimatorTriple)
-            {
-                anim.SetTrigger("Explode");
-            }
-        }
-            
+        AnimationCannonShoot();
     }
     private void FixedUpdate()
     {
@@ -57,20 +48,42 @@ public class PlayerControl : MonoBehaviour
     }
     private void LateUpdate()
     {
+        Shooting();
+    }
+
+    private void Shooting()
+    {
+        float pitchValue = 2;
         if (StatusCharacter.Alive)
         {
 
             if (Input.GetButtonDown("Fire1"))
             {
                 shootControl.SingleShoot(this.gameObject);
+                audioSource.pitch = pitchValue;
                 audioSource.Play();
-
             }
 
             if (Input.GetButtonDown("Fire2"))
             {
                 shootControl.TripleShoot(this.gameObject);
+                pitchValue = 1;
+                audioSource.pitch = pitchValue;
                 audioSource.Play();
+            }
+        }
+    }
+
+    private void AnimationCannonShoot()
+    {
+        if (Input.GetButtonDown("Fire1"))
+            Animator.SetTrigger("Explode");
+
+        if (Input.GetButtonDown("Fire2"))
+        {
+            foreach (Animator anim in AnimatorTriple)
+            {
+                anim.SetTrigger("Explode");
             }
         }
     }

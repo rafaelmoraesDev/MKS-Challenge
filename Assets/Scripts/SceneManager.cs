@@ -8,8 +8,8 @@ public class SceneManager : MonoBehaviour
     [SerializeField] private GameObject panelGameOver;
     public void GameStart()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
         Time.timeScale = Constants.MINIMUM_VALUE;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
     }
 
     public void MainMenu()

@@ -10,18 +10,27 @@ public class CountDownTimer : MonoBehaviour
     private GameData gameData;
     private float currentTime = Constants.ZERO;
     private float startTime;
+    private float timeReference = 60;
 
     private void Awake()
     {
+        
         GameData = GameObject.FindGameObjectWithTag(Tags.GameData);
         gameData = GameData.GetComponent<GameData>();
-        startTime = gameData.Minutes * 60;
+        startTime = gameData.Minutes * timeReference;
+        Time.timeScale = Constants.MINIMUM_VALUE;
     }
     private void Start()
     {
         currentTime = startTime;
     }
     private void Update()
+    {
+        CurrentTimeStatus();
+
+    }
+
+    private void CurrentTimeStatus()
     {
         currentTime -= Time.deltaTime;
         DisplayTime(currentTime);
@@ -31,7 +40,6 @@ public class CountDownTimer : MonoBehaviour
             SceneManager sceneManager = gameObject.GetComponent<SceneManager>();
             sceneManager.GameOver();
         }
-
     }
 
     private void DisplayTime(float time)
@@ -39,9 +47,8 @@ public class CountDownTimer : MonoBehaviour
         if (time <= Constants.ZERO)
             time = Constants.ZERO;
 
-
-        float minutes = Mathf.FloorToInt(time / 60);
-        float seconds = Mathf.FloorToInt(time % 60);
+        float minutes = Mathf.FloorToInt(time / timeReference);
+        float seconds = Mathf.FloorToInt(time % timeReference);
         Timer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 

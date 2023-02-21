@@ -16,7 +16,7 @@ public class EnemiesPile : MonoBehaviour
 
     private void GenerateEnemies()
     {
-        for (int i = 0; i < Amount; i++)
+        for (int i = Constants.ZERO; i < Amount; i++)
         {
             var enemy = GameObject.Instantiate(prefab, this.transform);
             var pile = enemy.GetComponent<PileObject>();

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CannonBall : MonoBehaviour
 {
-    public float LifeTime = 2f;
+    public float LifeTime = 0.1f;
     public float Speed = 10f;
     public GameObject OriginalShooter;
 
@@ -15,16 +15,14 @@ public class CannonBall : MonoBehaviour
         Invoke("DestroyCannonBall", LifeTime);
         rb2D.velocity = transform.right * Speed;
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         CheckHitTarget(collision);
         DestroyCannonBall();
     }
-
+ 
     private void DestroyCannonBall()
     {
-
         Destroy(this.gameObject);
     }
 
