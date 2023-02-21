@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemiesPile: {fileID: 0}
-  timeGenerateNext: 5
-  radiusArea: 5
-  amountEnemies: 10
+  timeGenerateNext: 1
+  radiusArea: 12
+  amountEnemies: 20

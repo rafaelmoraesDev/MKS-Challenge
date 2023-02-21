@@ -7,9 +7,16 @@ public class StatusCharacter : MonoBehaviour
     public int Life;
     public int Damage;
     public bool Alive;
+    public GameObject GameOverPanel;
+
+    private GameObject score;
+    private Score scoreScript;
+
     private void Awake()
     {
         Alive = !Alive;
+        score = GameObject.FindGameObjectWithTag(Tags.Canvas);
+        scoreScript = score.GetComponent<Score>();
     }
 
     public void SetDamage()
@@ -21,10 +28,19 @@ public class StatusCharacter : MonoBehaviour
             Alive = !Alive;
 
             if (gameObject.CompareTag(Tags.Enemy))
+            {
                 this.gameObject.GetComponent<EnemyControl>().AnimateExplosionAndDestroy();
+                this.gameObject.GetComponent<PileObject>().SendBackToPile();
+                
+                scoreScript.SetScore();
+
+            }
 
             if (gameObject.CompareTag(Tags.Player))
+            {
+                GameOverPanel.SetActive(true);
                 Time.timeScale = Constants.ZERO;
+            }
 
         }
     }

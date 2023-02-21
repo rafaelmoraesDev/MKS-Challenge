@@ -8,7 +8,6 @@ public class ShootControl : MonoBehaviour
     public GameObject CannonBall;
     public GameObject ExitPointSingleCannon;
     public GameObject[] ExitPointTripleCannon;
-
     public CannonBall CannonBallScript;
 
     public void SingleShoot(GameObject shooter)
@@ -31,7 +30,5 @@ public class ShootControl : MonoBehaviour
         CannonBall cannonBallScript = cannonBall.GetComponent<CannonBall>();
         cannonBallScript.OriginalShooter = owner;
         CannonBallScript = cannonBallScript;
-
-
     }
 }

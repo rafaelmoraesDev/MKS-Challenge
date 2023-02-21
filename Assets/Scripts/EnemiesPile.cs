@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,10 +6,11 @@ public class EnemiesPile : MonoBehaviour
 {
     public GameObject prefab;
     public int Amount;
-    private Stack<GameObject> enemies;
+    private Stack<GameObject> enemiesPile;
+    private string[] enemies = new string[] { "Chaser", "Shooter" };
     private void Start()
     {
-        enemies = new Stack<GameObject>();
+        enemiesPile = new Stack<GameObject>();
         GenerateEnemies();
     }
 
@@ -19,26 +19,40 @@ public class EnemiesPile : MonoBehaviour
         for (int i = 0; i < Amount; i++)
         {
             var enemy = GameObject.Instantiate(prefab, this.transform);
+            var pile = enemy.GetComponent<PileObject>();
+            pile.SetEnemiesPile(this);
+            EnemyControl enemyControl = enemy.GetComponent<EnemyControl>();
             enemy.SetActive(false);
-            enemies.Push(enemy);
+            SetRandomCharacter();
+            enemyControl.SetEnemyStats();
+            enemiesPile.Push(enemy);
         }
     }
 
     public GameObject SetEnemy()
     {
-        var enemy = enemies.Pop();
+        var enemy = enemiesPile.Pop();
+        EnemyControl enemyControl = enemy.GetComponent<EnemyControl>();
         enemy.SetActive(true);
+        enemyControl.SetEnemyStats();
         return enemy;
     }
 
     public void GetBackEnemy(GameObject enemy)
     {
         enemy.SetActive(false);
-        enemies.Push(enemy);
+        enemiesPile.Push(enemy);
     }
-
+    private void SetRandomCharacter()
+    {
+        EnemyControl enemyControl = prefab.GetComponent<EnemyControl>();
+        int min = Constants.ZERO;
+        int max = enemies.Length;
+        int sort = Random.Range(min, max);
+        enemyControl.EnemyKind = enemies[sort];
+    }
     public bool IsEmptyPile()
     {
-        return enemies.Count > Constants.ZERO;
+        return enemiesPile.Count > Constants.ZERO;
     }
 }

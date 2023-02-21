@@ -16,12 +16,12 @@ public class EnemyControl : MonoBehaviour
     [SerializeField] private float timeBetweenShoots;
     [SerializeField] private float startTime;
 
-
     private ShootControl shootControl;
     private MoveCharacter moveCharacter;
     private float distance;
     private Vector3 direction;
     private PlayerControl playerControl;
+    private AudioSource audioSource;
 
     private void Awake()
     {
@@ -30,10 +30,10 @@ public class EnemyControl : MonoBehaviour
         EnemySpriteRenderer = GetComponentInChildren<SpriteRenderer>();
         StatusCharacter = GetComponent<StatusCharacter>();
         Animator = GetComponentInChildren<Animator>();
+        audioSource = Camera.main.GetComponent<AudioSource>();
     }
     private void Start()
     {
-        SetEnemyKind();
         Player = GameObject.FindGameObjectWithTag(Tags.Player);
         timeBetweenShoots = startTime;
         playerControl = Player.GetComponent<PlayerControl>();
@@ -59,8 +59,9 @@ public class EnemyControl : MonoBehaviour
         {
             direction = Player.transform.position - transform.position;
             moveCharacter.LookToPlayerRotation(direction);
+            float distanceToShoot = 5;
 
-            if (distance < 5)
+            if (distance < distanceToShoot)
             {
                 if (EnemyKind.Equals("Shooter"))
                 {
@@ -68,6 +69,7 @@ public class EnemyControl : MonoBehaviour
                     if (timeBetweenShoots <= Constants.ZERO && playerControl.StatusCharacter.Alive)
                     {
                         shootControl.SingleShoot(gameObject);
+                        audioSource.Play();
                         timeBetweenShoots = startTime;
                     }
                 }
@@ -79,25 +81,30 @@ public class EnemyControl : MonoBehaviour
         }
     }
 
-    private void SetEnemyKind()
+    public void SetEnemyStats()
     {
+        int fullLife = 100;
+        int firstDivisor = 2;
+        int secondDivisor = 4;
+      
         switch (EnemyKind)
         {
             case "Chaser":
-                EnemySpriteRenderer.sprite = EnemySpritesChaser[0];
+                EnemySpriteRenderer.sprite = EnemySpritesChaser[Constants.ZERO];
                 shootControl.Cannon.SetActive(false);
-                StatusCharacter.Life = 100;
-                StatusCharacter.Damage = Random.Range(StatusCharacter.Life / 2, StatusCharacter.Life);
+                StatusCharacter.Alive = true;
+                StatusCharacter.Life = fullLife;
+                StatusCharacter.Damage = Random.Range(StatusCharacter.Life / firstDivisor, StatusCharacter.Life);
                 speed = 1f;
                 break;
             case "Shooter":
-                EnemySpriteRenderer.sprite = EnemySpritesShooter[0];
+                EnemySpriteRenderer.sprite = EnemySpritesShooter[Constants.ZERO];
                 shootControl.enabled = !shootControl.enabled;
-                StatusCharacter.Life = 100;
-                StatusCharacter.Damage = Random.Range(StatusCharacter.Life / 4, StatusCharacter.Life / 2);
+                StatusCharacter.Alive = true;
+                StatusCharacter.Life = fullLife;
+                StatusCharacter.Damage = Random.Range(StatusCharacter.Life / secondDivisor, StatusCharacter.Life / firstDivisor);
                 speed = 0.7f;
                 break;
-
             default:
                 break;
         }
@@ -110,16 +117,21 @@ public class EnemyControl : MonoBehaviour
             AnimateExplosionAndDestroy();
             Player.GetComponent<PlayerControl>().StatusCharacter.SetDamage();
         }
-
     }
 
     public void AnimateExplosionAndDestroy()
     {
-
         EnemySpriteRenderer.sprite = null;
         Animator.SetTrigger("Explode");
-        float duration = 0.2f;
-        //TODO: Retornar barco detonado para pilha
+        float duration = 0.3f;
+        PileObject pileObject = gameObject.GetComponent<PileObject>();
+        if (pileObject.isActiveAndEnabled)
+            StartCoroutine(SetBackToPile(duration, pileObject));
     }
 
+    private IEnumerator SetBackToPile(float timer, PileObject pileObject)
+    {
+        yield return new WaitForSecondsRealtime(timer);
+        pileObject.SendBackToPile();
+    }
 }

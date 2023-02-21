@@ -8,6 +8,8 @@ TagManager:
   - Scenario
   - Enemy
   - Bounds
+  - GameData
+  - Canvas
   layers:
   - Default
   - TransparentFX

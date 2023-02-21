@@ -4,33 +4,31 @@ using UnityEngine;
 
 public class EnemyGenerator : MonoBehaviour
 {
-
     public EnemiesPile EnemiesPile;
-    //[SerializeField] private GameObject enemyPrefab;
+
     [SerializeField] private float timeGenerateNext;
     [SerializeField] private int radiusArea;
     [SerializeField] private int amountEnemies;
 
-
-
+    private GameObject gameData;
     private float counter = Constants.ZERO;
-
-    private string[] enemies = new string[] { "Chaser", "Shooter" };
-
     private GameObject player;
-
-    private GameObject enemy;
 
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag(Tags.Player);
+        gameData = GameObject.FindGameObjectWithTag(Tags.GameData);
+        GameData gameDataScript = gameData.GetComponent<GameData>();
+        timeGenerateNext = gameDataScript.SpawnTime;
     }
-
+    
     private void Update()
     {
         float distance = Vector2.Distance(transform.position, player.transform.position);
         counter += Time.deltaTime;
-        if (counter >= timeGenerateNext && !Time.timeScale.Equals(Constants.ZERO) && distance > 10)
+        float tolerance = 8;
+
+        if (counter >= timeGenerateNext && !Time.timeScale.Equals(Constants.ZERO) && distance > tolerance)
         {
             StartCoroutine(GenerateEnemiesShips());
             counter = Constants.ZERO;
@@ -48,22 +46,12 @@ public class EnemyGenerator : MonoBehaviour
                 randomPosition = SetRandonPosition();
                 yield return null;
             }
-            
-            enemy = EnemiesPile.SetEnemy();
-            enemy.SetActive(true);
+
+            var enemy = EnemiesPile.SetEnemy();
             enemy.transform.position = randomPosition;
-            SetRandomCharacter();
+            //EnemiesPile.SetEnemy();
         }
 
-    }
-
-    private void SetRandomCharacter()
-    {
-        int min = 0;
-        int max = enemies.Length;
-        int sort = Random.Range(min, max);
-        EnemyControl enemyControl = enemy.GetComponent<EnemyControl>();
-        enemyControl.EnemyKind = enemies[sort];
     }
     private Vector3 SetRandonPosition()
     {
@@ -73,6 +61,8 @@ public class EnemyGenerator : MonoBehaviour
 
         return position;
     }
+
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

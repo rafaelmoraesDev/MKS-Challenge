@@ -9,13 +9,13 @@ public class PlayerControl : MonoBehaviour
     public Sprite[] PlayerSprites;
     public Animator Animator;
     public GameObject Cannon;
-
     public Animator[] AnimatorTriple;
 
     private ShootControl shootControl;
     private Rigidbody2D rb2D;
     private Vector2 direction;
     private SpriteRenderer playerSpriteRenderer;
+    private AudioSource audioSource;
 
     [SerializeField] private float speed = Constants.MINIMUM_VALUE;
 
@@ -27,6 +27,7 @@ public class PlayerControl : MonoBehaviour
         StatusCharacter = GetComponent<StatusCharacter>();
         shootControl = GetComponent<ShootControl>();
         Animator = GetComponentInChildren<Animator>();
+        audioSource = Camera.main.GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -60,10 +61,17 @@ public class PlayerControl : MonoBehaviour
         {
 
             if (Input.GetButtonDown("Fire1"))
+            {
                 shootControl.SingleShoot(this.gameObject);
+                audioSource.Play();
+
+            }
 
             if (Input.GetButtonDown("Fire2"))
+            {
                 shootControl.TripleShoot(this.gameObject);
+                audioSource.Play();
+            }
         }
     }
 
